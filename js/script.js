@@ -43,4 +43,12 @@ document.addEventListener("DOMContentLoaded", function(){
             window.location.href = "login.html";
         }
     }
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", function(event) {
+            event.preventDefault();
+            localStorage.removeItem("isLoggedIn");
+            window.location.href = "index.html";
+        });
+    }
 })
