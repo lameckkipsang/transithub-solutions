@@ -52,4 +52,29 @@ document.addEventListener("DOMContentLoaded", function(){
             window.location.href = "index.html";
         });
     }
+    const carForm = document.getElementById("carListingForm");
+    const container = document.getElementById("carListingsContainer");
+    
+    if (carForm && container) {
+        displayCarListings();
+
+        carForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            let make = document.getElementById("carMake").value;
+            let desc = document.getElementById("carDesc").value;
+
+            let newCar = {
+                make: make,
+                description: desc,
+                price: ""
+            };
+
+            let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+            cars.push(newCar);
+            localStorage.setItem("carListings", JSON.stringify(cars));
+
+            carForm.reset();
+            displayCarListings();
+        });
+    }
 })
