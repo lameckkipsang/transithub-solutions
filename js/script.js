@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function(){
             let email = document.getElementById("loginEmail").value;
             let password = document.getElementById("loginPassword").value;
 
-            let savedEmail = localStorage.getItem("userPassword");
+            let savedEmail = localStorage.getItem("userEmail");
             let savedPassword = localStorage.getItem("userPassword");
 
             if (savedEmail && savedPassword) {
