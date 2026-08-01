@@ -77,4 +77,31 @@ document.addEventListener("DOMContentLoaded", function(){
             displayCarListings();
         });
     }
+    function displayCarListings() {
+        let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+        let dynamicContainer = document.getElementById("dynamicCardsContainer");
+        if (!dynamicContainer) return;
+        let htmlContent = "";
+        for (let i = 0; i < cars.length; i++) {
+            let car = cars[i];
+            
+            htmlContent += `
+                <div class="bg-white rounded-xl shadow p-6 flex flex-col md:flex-row gap-6 border border-gray-100 dynamic-car-card">
+                    <div class="w-full md:w-1/3 h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-bold">New Listing</div>
+                    <div class="flex-grow flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold">${car.make}</h3>
+                            <p class="text-gray-600 text-sm mt-2">${car.description}</p>
+                            <div class="text-yellow-400 text-xl tracking-widest mt-2">★★★★★</div>
+                        </div>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="font-bold text-lg text-blue-900">${car.price}</span>
+                            <button type="button" class="delete-btn bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition text-sm font-bold" data-index="${i}">Delete Listing</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        dynamicContainer.innerHTML = htmlContent;
+    }
 })
