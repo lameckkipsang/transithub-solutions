@@ -103,5 +103,18 @@ document.addEventListener("DOMContentLoaded", function(){
             `;
         }
         dynamicContainer.innerHTML = htmlContent;
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+        deleteButtons.forEach(btn => {
+            btn.addEventListener("click", function() {
+                let index = this.getAttribute("data-index");
+                deleteCarListing(index);
+            });
+        });
+    }
+    function deleteCarListing(index) {
+        let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+        cars.splice(index, 1);
+        localStorage.setItem("carListings", JSON.stringify(cars));
+        displayCarListings();
     }
 })
