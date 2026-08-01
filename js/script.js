@@ -1,3 +1,4 @@
+// This is my first part of login,signup and dashboard authentication and redirect and also a functional logout feature,also fixed an error.
 document.addEventListener("DOMContentLoaded", function(){
     const signupForm = document.getElementById("signupForm");
     if (signupForm) {
