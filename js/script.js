@@ -62,11 +62,11 @@ document.addEventListener("DOMContentLoaded", function(){
             event.preventDefault();
             let make = document.getElementById("carMake").value;
             let desc = document.getElementById("carDesc").value;
-
+            let priceInput = document.getElementById("carPrice").value;
             let newCar = {
                 make: make,
                 description: desc,
-                price: ""
+                price: priceInput
             };
 
             let cars = JSON.parse(localStorage.getItem("carListings")) || [];
