@@ -12,28 +12,21 @@ document.addEventListener("DOMContentLoaded", function(){
             localStorage.setItem("userEmail", this.email);
             localStorage.setItem("userPassword", this.password);
         }
-        const loginForm = document.getElementById("loginForm");
-        if (loginForm) {
-        loginForm.addEventListener("submit", function(e) {
-            e.preventDefault();
-            let email = document.getElementById("loginEmail").value;
-            let password = document.getElementById("loginPassword").value;
-
+        static login(email,password){
             let savedEmail = localStorage.getItem("userEmail");
             let savedPassword = localStorage.getItem("userPassword");
-
-            if (savedEmail && savedPassword) {
-                if (email === savedEmail && password === savedPassword) {
-                    localStorage.setItem("isLoggedIn", "true");
-                    window.location.href = "dashboard.html";
-                } else {
-                    alert("Invalid email or password.");
-                }
-            } else {
-                localStorage.setItem("isLoggedIn", "true");
-                window.location.href = "dashboard.html";
+            if (!savedEmail || !savedPassword){
+                alert("No amount found! Please sign up first.")
+                return false;
             }
-        });
+            if (email === savedEmail && password ===savedPassword){
+                localStorage.setItem("isLoggedIn", "true");
+                return true;
+            } else{
+                alert("Inavalid email or password.");
+                return false;
+            }
+        }
     }
     }
     const signupForm = document.getElementById("signupForm");
