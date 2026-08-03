@@ -97,11 +97,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 reader.onload = function(e) {
                     let imageDataUrl = e.target.result;
 
-                    saveCarToStorage(make, desc, priceInput, imageDataUrl, category, listingfee);
+                    saveCarToStorage(make, desc, priceInput, imageDataUrl, category, listingFee);
                 };
                 reader.readAsDataURL(file);
             } else {
-                saveCarToStorage(make, desc, priceInput, "", category, listingfee);
+                saveCarToStorage(make, desc, priceInput, "", category, listingFee);
             }
         });
     }
@@ -121,7 +121,31 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
         displayCarListings();
-    }          
+    }    
+    function saveCarToStorage(make, desc, price, image, category, listingFee) {
+        let currentUser = localStorage.getItem("userEmail") || "guest_user";
+        let newCar = {
+            owner: currentUser,
+            make: make,
+            description: desc,
+            price: price,
+            image: image,
+            category: category,
+            listingFee: listingFee,
+            hiredUntil: 0
+        };
+        try {
+            let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+            cars.push(newCar);
+            localStorage.setItem("carListings", JSON.stringify(cars));
+            document.getElementById("carListingForm").reset();
+            displayCarListings();
+            alert("Vehicle listed successfully!");
+        } catch (error) {
+            console.error("Storage error (Image file may be too large):", error);
+            alert("This image file is too large for browser storage. Please try uploading a smaller compressed image.");
+        }  
+    }      
     function displayCarListings() {
         let cars = JSON.parse(localStorage.getItem("carListings")) || [];
         let dynamicContainer = document.getElementById("dynamicCardsContainer");
