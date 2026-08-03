@@ -186,4 +186,17 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }    
     fetchTransitWeather(); 
+    if (window.location.pathname.includes("admin-dashboard.html")) {
+        if (localStorage.getItem("isAdmin") !== "true") {
+            window.location.href = "login.html";
+        }
+        const adminLogoutBtn = document.getElementById("adminLogout");
+        if (adminLogoutBtn) {
+            adminLogoutBtn.addEventListener("click", function() {
+                localStorage.removeItem("isAdmin");
+                localStorage.removeItem("isLoggedIn");
+                window.location.href = "login.html";
+            });
+        }
+    }
 })
