@@ -76,18 +76,34 @@ document.addEventListener("DOMContentLoaded", function(){
             let make = document.getElementById("carMake").value;
             let desc = document.getElementById("carDesc").value;
             let priceInput = document.getElementById("carPrice").value;
-            let newCar = {
-                make: make,
-                description: desc,
-                price: priceInput
-            };
+            let imageInput = document.getElementById("carImage");
+            let file = imageInput.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let imageDataUrl = e.target.result;
 
-            let cars = JSON.parse(localStorage.getItem("carListings")) || [];
-            cars.push(newCar);
-            localStorage.setItem("carListings", JSON.stringify(cars));
+                    saveCarToStorage(make, desc, priceInput, imageDataUrl);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                saveCarToStorage(make, desc, priceInput, "");
+            }
+            function saveCarToStorage(make, desc, price, image) {
+                let newCar = {
+                    make: make,
+                    description: desc,
+                    price: priceInput,
+                    image: image
+                };
+                let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+                cars.push(newCar);
+                localStorage.setItem("carListings", JSON.stringify(cars));
+                document.getElementById("carListingForm").reset();
+                displayCarListings();
+            }
 
-            carForm.reset();
-            displayCarListings();
+            
         });
     }
     function displayCarListings() {
