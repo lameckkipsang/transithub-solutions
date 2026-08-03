@@ -96,11 +96,16 @@ document.addEventListener("DOMContentLoaded", function(){
                     price: price,
                     image: image
                 };
-                let cars = JSON.parse(localStorage.getItem("carListings")) || [];
-                cars.push(newCar);
-                localStorage.setItem("carListings", JSON.stringify(cars));
-                document.getElementById("carListingForm").reset();
-                displayCarListings();
+                try {
+                    let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+                    cars.push(newCar);
+                    localStorage.setItem("carListings", JSON.stringify(cars));
+                    document.getElementById("carListingForm").reset();
+                    displayCarListings();
+                } catch (error) {
+                    console.error("Storage error (Image file may be too large):", error);
+                    alert("This image file is too large for browser storage. Please try uploading a smaller compressed image.");
+                }  
             }
         });
     }
