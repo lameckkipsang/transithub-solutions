@@ -67,15 +67,23 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     const carForm = document.getElementById("carListingForm");
     const container = document.getElementById("carListingsContainer");
-    
-    if (carForm && container) {
-        displayCarListings();
-
+    const categoryPrices = {
+        mini: 5000,
+        sedan: 6000,
+        suv5: 8000,
+        suv7: 12000
+    };
+    if (container){
+        initCarListings();
+    }
+    if (carForm) {
         carForm.addEventListener("submit", function(event) {
             event.preventDefault();
             let make = document.getElementById("carMake").value;
             let desc = document.getElementById("carDesc").value;
             let priceInput = document.getElementById("carPrice").value;
+            let category = document.getElementById("carCategory").value;
+            let listingFee = categoryPrices[category] || 5000;
             let imageInput = document.getElementById("carImage");
             let file = imageInput.files[0];
             if (file) {
@@ -83,32 +91,31 @@ document.addEventListener("DOMContentLoaded", function(){
                 reader.onload = function(e) {
                     let imageDataUrl = e.target.result;
 
-                    saveCarToStorage(make, desc, priceInput, imageDataUrl);
+                    saveCarToStorage(make, desc, priceInput, imageDataUrl, category, listingfee);
                 };
                 reader.readAsDataURL(file);
             } else {
-                saveCarToStorage(make, desc, priceInput, "");
+                saveCarToStorage(make, desc, priceInput, "", category, listingfee);
             }
         });
     }
-    function saveCarToStorage(make, desc, price, image) {
-                let newCar = {
-                    make: make,
-                    description: desc,
-                    price: price,
-                    image: image
-                };
-                try {
-                    let cars = JSON.parse(localStorage.getItem("carListings")) || [];
-                    cars.push(newCar);
-                    localStorage.setItem("carListings", JSON.stringify(cars));
-                    document.getElementById("carListingForm").reset();
-                    displayCarListings();
-                } catch (error) {
-                    console.error("Storage error (Image file may be too large):", error);
-                    alert("This image file is too large for browser storage. Please try uploading a smaller compressed image.");
-                }  
+    async function initCarListings() {
+        let cars = JSON.parse(localStorage.getItem("carListings"));
+        if (!cars || cars.length === 0) {
+            try {
+                let response = await fetch('data/cars.json');
+                if (!response.ok) {
+                    throw new Error("Failed to load data/cars.json");
+                }
+                cars = await response.json();
+                localStorage.setItem("carListings", JSON.stringify(cars));
+            } catch (error) {
+                console.error("Error fetching static car data:", error);
+                cars = [];
             }
+        }
+        displayCarListings();
+    }          
     function displayCarListings() {
         let cars = JSON.parse(localStorage.getItem("carListings")) || [];
         let dynamicContainer = document.getElementById("dynamicCardsContainer");
