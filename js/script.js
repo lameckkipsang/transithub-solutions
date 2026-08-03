@@ -1,5 +1,19 @@
 // This is my first part of login,signup and dashboard authentication and redirect and also a functional logout feature,also fixed an error.
 document.addEventListener("DOMContentLoaded", function(){
+    const protectedPages = [
+        "car-hire.html",
+        "movers-quote.html",
+        "transit.html",
+        "movers.html",
+        "dashboard.html"
+    ];
+    const currentPage = window.location.pathname;
+    if (protectedPages.some(page => currentPage.includes(page))) {
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            window.location.href = "login.html";
+            return;
+        }
+    }
     class User {
         constructor(name, email, password) {
             this.name = name;
@@ -26,13 +40,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 alert("Invalid email or password.");
                 return false;
             }
-        }
-    }
-    const protectedPages = ["car-hire.html", "dashboard.html"];
-    const currentPage = window.location.pathname;
-    if (protectedPages.some(page => currentPage.includes(page))) {
-        if (localStorage.getItem("isLoggedIn") !== "true") {
-            window.location.href = "login.html";
         }
     }
     const signupForm = document.getElementById("signupForm");
