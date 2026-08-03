@@ -28,6 +28,13 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
     }
+    const protectedPages = ["car-hire.html", "dashboard.html"];
+    const currentPage = window.location.pathname;
+    if (protectedPages.some(page => currentPage.includes(page))) {
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            window.location.href = "login.html";
+        }
+    }
     const signupForm = document.getElementById("signupForm");
     if (signupForm) {
         signupForm.addEventListener("submit", function(e) {
