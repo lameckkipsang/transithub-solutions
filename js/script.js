@@ -198,5 +198,39 @@ document.addEventListener("DOMContentLoaded", function(){
                 window.location.href = "login.html";
             });
         }
+        loadAdminData();
+    }
+    function loadAdminData() {
+        let userEmail = localStorage.getItem("userEmail") || "Guest User";
+        let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+
+        let totalReceivables = 0;
+        cars.forEach(car => {
+            totalReceivables += Number(car.listingFee || 5000);
+        });
+        let receivablesElement = document.getElementById("totalReceivables");
+        let listingsCountElement = document.getElementById("totalListingsCount");
+        
+        if (receivablesElement) receivablesElement.textContent = `Ksh ${totalReceivables.toLocaleString()}`;
+        if (listingsCountElement) listingsCountElement.textContent = `${cars.length} vehicle(s)`;
+
+        let userListContainer = document.getElementById("adminUserList");
+        if (userListContainer) {
+            userListContainer.innerHTML = `
+                <div class="flex justify-between items-center p-4 border rounded-lg bg-gray-50">
+                    <div>
+                        <p class="font-bold text-lg text-gray-900">${userEmail}</p>
+                        <p class="text-sm text-gray-600">Total Active Vehicles: ${cars.length}</p>
+                        <p class="text-sm font-semibold text-blue-800 mt-1">Monthly Listing Fee Receivable Due: Ksh ${totalReceivables.toLocaleString()}</p>
+                    </div>
+                    <button id="deleteUserAccBtn" class="bg-red-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-red-700 transition">Delete User Account</button>
+                </div>
+            `;
+
+            const deleteAccBtn = document.getElementById("deleteUserAccBtn");
+            if (deleteAccBtn) {
+                deleteAccBtn.addEventListener("click", deleteUserAccount);
+            }
+        }
     }
 })
