@@ -233,4 +233,13 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
     }
+    function deleteUserAccount() {
+        if (confirm("Are you sure you want to delete this user account and all their vehicle listings?")) {
+            localStorage.removeItem("userEmail");
+            localStorage.removeItem("userPassword");
+            localStorage.removeItem("carListings");
+            alert("User account and listings deleted successfully.");
+            location.reload();
+        }
+    }
 })
