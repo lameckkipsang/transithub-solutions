@@ -134,23 +134,22 @@ document.addEventListener("DOMContentLoaded", function(){
         }
         
     }
-    const weatherInfo = document.getElementById("weatherInfo");
-    if (weatherInfo) {
-        fetch('https://api.open-meteo.com/v1/forecast?latitude=-1.2864&longitude=36.8172&current_weather=true')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then(data => {
-                let temp = data.current_weather.temperature;
-                let wind = data.current_weather.windspeed;
-                weatherInfo.textContent = `Temperature: ${temp}°C | Wind Speed: ${wind} km/h — Conditions optimal for dispatch.`;
-            })
-            .catch(error => {
+    async function fetchTransitWeather(){
+       const weatherInfo = document.getElementById("weatherInfo");
+       if (!weatherInfo)return; 
+       try {
+            let response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-1.2864&longitude=36.8172&current_weather=true')
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            let data = await response.json();          
+            let temp = data.current_weather.temperature;
+            let wind = data.current_weather.windspeed;
+            weatherInfo.textContent = `Temperature: ${temp}°C | Wind Speed: ${wind} km/h — Conditions optimal for dispatch.`;
+        } catch(error) {
                 console.error("Error fetching weather data:", error);
                 weatherInfo.textContent = "Live weather data currently unavailable.";
-            });
-    }
+        }
+    }    
+    fetchTransitWeather(); 
 })
