@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 let newCar = {
                     make: make,
                     description: desc,
-                    price: priceInput,
+                    price: price,
                     image: image
                 };
                 let cars = JSON.parse(localStorage.getItem("carListings")) || [];
