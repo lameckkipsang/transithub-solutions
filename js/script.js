@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 : `<div class="w-full md:w-1/3 h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-bold">New Listing</div>`;
             htmlContent += `
                 <div class="bg-white rounded-xl shadow p-6 flex flex-col md:flex-row gap-6 border border-gray-100 dynamic-car-card">
-                    <div class="w-full md:w-1/3 h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-bold">New Listing</div>
+                    ${imageHTML}
                     <div class="flex-grow flex flex-col justify-between">
                         <div>
                             <h3 class="text-xl font-bold">${car.make}</h3>
