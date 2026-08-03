@@ -16,14 +16,14 @@ document.addEventListener("DOMContentLoaded", function(){
             let savedEmail = localStorage.getItem("userEmail");
             let savedPassword = localStorage.getItem("userPassword");
             if (!savedEmail || !savedPassword){
-                alert("No amount found! Please sign up first.")
+                alert("No account found! Please sign up first.")
                 return false;
             }
             if (email === savedEmail && password ===savedPassword){
                 localStorage.setItem("isLoggedIn", "true");
                 return true;
             } else{
-                alert("Inavalid email or password.");
+                alert("Invalid email or password.");
                 return false;
             }
         }
