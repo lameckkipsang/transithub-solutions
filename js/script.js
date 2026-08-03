@@ -102,8 +102,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 document.getElementById("carListingForm").reset();
                 displayCarListings();
             }
-
-            
         });
     }
     function displayCarListings() {
@@ -113,7 +111,9 @@ document.addEventListener("DOMContentLoaded", function(){
         let htmlContent = "";
         for (let i = 0; i < cars.length; i++) {
             let car = cars[i];
-            
+            let imageHTML = car.image 
+                ? `<img src="${car.image}" class="w-full md:w-1/3 h-40 object-cover rounded-lg" alt="${car.make}">`
+                : `<div class="w-full md:w-1/3 h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-bold">New Listing</div>`;
             htmlContent += `
                 <div class="bg-white rounded-xl shadow p-6 flex flex-col md:flex-row gap-6 border border-gray-100 dynamic-car-card">
                     <div class="w-full md:w-1/3 h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-bold">New Listing</div>
