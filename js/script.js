@@ -89,7 +89,9 @@ document.addEventListener("DOMContentLoaded", function(){
             } else {
                 saveCarToStorage(make, desc, priceInput, "");
             }
-            function saveCarToStorage(make, desc, price, image) {
+        });
+    }
+    function saveCarToStorage(make, desc, price, image) {
                 let newCar = {
                     make: make,
                     description: desc,
@@ -107,8 +109,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     alert("This image file is too large for browser storage. Please try uploading a smaller compressed image.");
                 }  
             }
-        });
-    }
     function displayCarListings() {
         let cars = JSON.parse(localStorage.getItem("carListings")) || [];
         let dynamicContainer = document.getElementById("dynamicCardsContainer");
