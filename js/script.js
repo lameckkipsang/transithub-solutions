@@ -125,10 +125,14 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
     function deleteCarListing(index) {
-        let cars = JSON.parse(localStorage.getItem("carListings")) || [];
-        cars.splice(index, 1);
-        localStorage.setItem("carListings", JSON.stringify(cars));
-        displayCarListings();
+        let confirmed = confirm("Are you sure you really want to delete your car listing?");
+        if (confirmed){
+            let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+            cars.splice(index, 1);
+            localStorage.setItem("carListings", JSON.stringify(cars));
+            displayCarListings();
+        }
+        
     }
     const weatherInfo = document.getElementById("weatherInfo");
     if (weatherInfo) {
