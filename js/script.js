@@ -266,4 +266,22 @@ document.addEventListener("DOMContentLoaded", function(){
             location.reload();
         }
     }
+    const navLinksContainer = document.querySelector("nav .hidden.md\\:flex") || document.querySelector("nav");
+if (navLinksContainer && localStorage.getItem("isLoggedIn") === "true") {
+    const navAnchorTags = navLinksContainer.querySelectorAll("a");
+    navAnchorTags.forEach(anchor => {
+        if (anchor.textContent.trim() === "Login") {
+            anchor.textContent = "Logout";
+            anchor.href = "#";
+            anchor.id = "globalLogoutBtn";
+            anchor.addEventListener("click", function(e) {
+                e.preventDefault();
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("isAdmin");
+                alert("Logged out successfully!");
+                window.location.href = "index.html"; 
+            });
+        }
+    });
+}
 })
