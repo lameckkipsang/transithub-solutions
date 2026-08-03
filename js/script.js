@@ -1,23 +1,19 @@
 // This is my first part of login,signup and dashboard authentication and redirect and also a functional logout feature,also fixed an error.
 document.addEventListener("DOMContentLoaded", function(){
-    const signupForm = document.getElementById("signupForm");
-    if (signupForm) {
-        signupForm.addEventListener("submit", function(e) {
-            e.preventDefault();
-            let name = document.getElementById("signupName").value;
-            let email = document.getElementById("signupEmail").value;
-            let password = document.getElementById("signupPassword").value;
+    class User {
+        constructor(name, email, password) {
+            this.name = name;
+            this.email = email;
+            this.password = password;
+        }
 
-            localStorage.setItem("userFullName", name);
-            localStorage.setItem("userEmail", email);
-            localStorage.setItem("userPassword", password);
-
-            alert("Account created successfully! Please log in.");
-            window.location.href = "login.html";
-        });
-    }
-    const loginForm = document.getElementById("loginForm");
-    if (loginForm) {
+        register() {
+            localStorage.setItem("userFullName", this.name);
+            localStorage.setItem("userEmail", this.email);
+            localStorage.setItem("userPassword", this.password);
+        }
+        const loginForm = document.getElementById("loginForm");
+        if (loginForm) {
         loginForm.addEventListener("submit", function(e) {
             e.preventDefault();
             let email = document.getElementById("loginEmail").value;
@@ -37,6 +33,23 @@ document.addEventListener("DOMContentLoaded", function(){
                 localStorage.setItem("isLoggedIn", "true");
                 window.location.href = "dashboard.html";
             }
+        });
+    }
+    }
+    const signupForm = document.getElementById("signupForm");
+    if (signupForm) {
+        signupForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            let name = document.getElementById("signupName").value;
+            let email = document.getElementById("signupEmail").value;
+            let password = document.getElementById("signupPassword").value;
+
+            localStorage.setItem("userFullName", name);
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("userPassword", password);
+
+            alert("Account created successfully! Please log in.");
+            window.location.href = "login.html";
         });
     }
     if (window.location.pathname.includes("dashboard.html")) {
