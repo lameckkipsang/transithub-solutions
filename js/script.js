@@ -158,6 +158,9 @@ document.addEventListener("DOMContentLoaded", function(){
     function displayCarListings() {
         let cars = JSON.parse(localStorage.getItem("carListings")) || [];
         let dynamicContainer = document.getElementById("dynamicCardsContainer");
+        let currentUser = localStorage.getItem("userEmail");
+        let isAdmin = localStorage.getItem("isAdmin") === "true";
+       
         if (!dynamicContainer) return;
         let htmlContent = "";
         for (let i = 0; i < cars.length; i++) {
