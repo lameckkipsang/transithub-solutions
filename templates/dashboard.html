@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="text-gray-800 font-sans h-full flex flex-col">
     <nav class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
-        <a href="index.html" class="flex flex-row items-center gap-3 flex-shrink-0 font-bold text-xl tracking-tight text-blue-900">
-                    <img src="assets/logo.png" alt="TransitHub Logo" class="h-10 w-10 rounded-full object-cover border border-gray-200 shadow-sm">TransitHub Solutions
+        <a href="../index.html" class="flex flex-row items-center gap-3 flex-shrink-0 font-bold text-xl tracking-tight text-blue-900">
+                    <img src="../assets/logo.png" alt="TransitHub Logo" class="h-10 w-10 rounded-full object-cover border border-gray-200 shadow-sm">TransitHub Solutions
         <div class="flex space-x-6 items-center">
             <span class="text-green-600 font-bold text-sm hidden md:inline">● Online</span>
-            <a href="index.html" id="logoutBtn" class="text-red-500 hover:text-red-700 font-semibold transition text-sm">Log Out</a>
+            <a href="../index.html" id="logoutBtn" class="text-red-500 hover:text-red-700 font-semibold transition text-sm">Log Out</a>
         </div>
     </nav>
     <main class="flex-grow py-12 px-4">
@@ -25,19 +25,19 @@
                 <span class="block sm:inline">You are securely logged in to the platform.</span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="movers.html" class="bg-white p-6 rounded-xl shadow border border-gray-200 hover:border-blue-500 transition">
+                <a href="templates/movers.html" class="bg-white p-6 rounded-xl shadow border border-gray-200 hover:border-blue-500 transition">
                     <h3 class="font-bold text-xl mb-2 text-blue-900">My Movers</h3>
                     <p class="text-sm text-gray-600 mb-4">Manage moving requests and brokerage tracking.</p>
                     <span class="text-sm font-bold text-blue-600">Go to Movers →</span>
                 </a>
                 
-                <a href="transit.html" class="bg-white p-6 rounded-xl shadow border border-gray-200 hover:border-blue-500 transition">
+                <a href="templates/transit.html" class="bg-white p-6 rounded-xl shadow border border-gray-200 hover:border-blue-500 transition">
                     <h3 class="font-bold text-xl mb-2 text-blue-900">Transit Goods Transport</h3>
                     <p class="text-sm text-gray-600 mb-4">Request long-distance driver and lorry details.</p>
                     <span class="text-sm font-bold text-blue-600">Go to Transit →</span>
                 </a>
 
-                <a href="car-hire.html" class="bg-white p-6 rounded-xl shadow border border-gray-200 hover:border-blue-500 transition">
+                <a href="templates/car-hire.html" class="bg-white p-6 rounded-xl shadow border border-gray-200 hover:border-blue-500 transition">
                     <h3 class="font-bold text-xl mb-2 text-blue-900">Manage Vehicles</h3>
                     <p class="text-sm text-gray-600 mb-4">Upload car images, description, or browse rentals.</p>
                     <span class="text-sm font-bold text-blue-600">Go to Car Hire →</span>
@@ -48,6 +48,6 @@
     <footer class="bg-gray-900 text-gray-400 py-6 text-center text-sm mt-auto">
         <p>&copy; 2026 TransitHub Solutions. All rights reserved.</p>
     </footer>
-<script src = "js/script.js"></script>
+<script src = "../js/script.js"></script>
 </body>
 </html>

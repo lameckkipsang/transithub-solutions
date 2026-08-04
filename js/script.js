@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function(){
         let cars = JSON.parse(localStorage.getItem("carListings"));
         if (!cars || cars.length === 0) {
             try {
-                let response = await fetch('data/cars.json');
+                let response = await fetch('../data/cars.json');
                 if (!response.ok) {
                     throw new Error("Failed to load data/cars.json");
                 }
