@@ -22,21 +22,36 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
         register() {
-            localStorage.setItem("userFullName", this.name);
-            localStorage.setItem("userEmail", this.email);
-            localStorage.setItem("userPassword", this.password);
-        }
-        static login(email,password){
-            let savedEmail = localStorage.getItem("userEmail");
-            let savedPassword = localStorage.getItem("userPassword");
-            if (!savedEmail || !savedPassword){
-                alert("No account found! Please sign up first.")
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let existingUser = users.find(u => u.email === this.email);
+            if (existingUser) {
+                alert("An account with this email already exists!");
                 return false;
             }
-            if (email === savedEmail && password ===savedPassword){
+            users.push({
+                name: this.name,
+                email: this.email,
+                password: this.password
+            });
+
+            localStorage.setItem("users", JSON.stringify(users));
+            return true;
+        }
+        static login(email,password){
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            
+            if (users.length === 0) {
+                alert("No accounts found! Please sign up first.");
+                return false;
+            }
+            let foundUser = users.find(u => u.email === email && u.password === password);
+
+            if (foundUser) {
                 localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("userEmail", foundUser.email);
+                localStorage.setItem("userFullName", foundUser.name);
                 return true;
-            } else{
+            } else {
                 alert("Invalid email or password.");
                 return false;
             }
@@ -50,9 +65,10 @@ document.addEventListener("DOMContentLoaded", function(){
             let email = document.getElementById("signupEmail").value;
             let password = document.getElementById("signupPassword").value;
             let newUser = new User(name, email, password);
-            newUser.register(); 
-            alert("Account created successfully! Please log in.");
-            window.location.href = "login.html";
+            if (newUser.register()) { 
+                alert("Account created successfully! Please log in.");
+                window.location.href = "login.html";
+            }
         });
     }
     const loginForm = document.getElementById("loginForm");
