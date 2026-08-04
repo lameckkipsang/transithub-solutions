@@ -382,9 +382,9 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
     const navLinksContainer = document.querySelector("nav .hidden.md\\:flex") || document.querySelector("nav");
-if (navLinksContainer && localStorage.getItem("isLoggedIn") === "true") {
-    const navAnchorTags = navLinksContainer.querySelectorAll("a");
-    navAnchorTags.forEach(anchor => {
+    if (navLinksContainer && localStorage.getItem("isLoggedIn") === "true") {
+        const navAnchorTags = navLinksContainer.querySelectorAll("a");
+        navAnchorTags.forEach(anchor => {
         if (anchor.textContent.trim() === "Login") {
             anchor.textContent = "Logout";
             anchor.href = "#";
