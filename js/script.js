@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
     const carForm = document.getElementById("carListingForm");
-    const container = document.getElementById("carListingsContainer");
+    const container = document.getElementById("dynamicCardsContainer") || document.getElementById("carListingsContainer");
     const categoryPrices = {
         mini: 5000,
         sedan: 6000,
@@ -162,13 +162,25 @@ document.addEventListener("DOMContentLoaded", function(){
         let htmlContent = "";
         for (let i = 0; i < cars.length; i++) {
             let car = cars[i];
-            let imageHTML = car.image 
-                ? `<img src="${car.image}" class="w-full md:w-1/3 h-40 object-cover rounded-lg" alt="${car.make}">`
-                : `<div class="w-full md:w-1/3 h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-bold">New Listing</div>`;
             let isAvailable = !car.hiredUntil || Number(car.hiredUntil) <= Date.now();
             let statusBadge = isAvailable 
-            ? `<span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">Available</span>`
-            : `<span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full">Hired Out</span>`;
+                ? `<span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">Available</span>`
+                : `<span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full">Hired Out</span>`;
+            let isOwner = (car.owner === currentUser) || isAdmin;
+
+            let actionButton = "";
+            if (isOwner) {
+                actionButton = `<button type="button" class="delete-btn bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition text-sm font-bold" data-index="${i}">Delete Listing</button>`;
+            } else {
+                if (isAvailable) {
+                    actionButton = `<button type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm font-bold" onclick="hireCar(${i})">Hire Car</button>`;
+                } else {
+                    actionButton = `<span class="text-xs text-gray-500 italic font-semibold">Currently Booked</span>`;
+                }
+            }
+                let imageHTML = car.image 
+                ? `<img src="${car.image}" class="w-full md:w-1/3 h-40 object-cover rounded-lg" alt="${car.make}">`
+                : `<div class="w-full md:w-1/3 h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-bold">New Listing</div>`;
                 htmlContent += `
                 <div class="bg-white rounded-xl shadow p-6 flex flex-col md:flex-row gap-6 border border-gray-100 dynamic-car-card">
                     ${imageHTML}
@@ -213,14 +225,22 @@ document.addEventListener("DOMContentLoaded", function(){
         displayCarListings();
     };
     function deleteCarListing(index) {
+        let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+        let car = cars[index];
+        let currentUser = localStorage.getItem("userEmail");
+        let isAdmin = localStorage.getItem("isAdmin") === "true";
+
+        if (!isAdmin && car.owner !== currentUser) {
+            alert("You do not have permission to delete this listing.");
+            return;
+        }
+
         let confirmed = confirm("Are you sure you really want to delete your car listing?");
         if (confirmed){
-            let cars = JSON.parse(localStorage.getItem("carListings")) || [];
             cars.splice(index, 1);
             localStorage.setItem("carListings", JSON.stringify(cars));
             displayCarListings();
-        }
-        
+        }   
     }
     async function fetchTransitWeather(){
        const weatherInfo = document.getElementById("weatherInfo");
