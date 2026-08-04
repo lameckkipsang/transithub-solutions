@@ -308,30 +308,46 @@ document.addEventListener("DOMContentLoaded", function(){
 
         let userListContainer = document.getElementById("adminUserList");
         if (userListContainer) {
-            userListContainer.innerHTML = `
-                <div class="flex justify-between items-center p-4 border rounded-lg bg-gray-50">
-                    <div>
-                        <p class="font-bold text-lg text-gray-900">${userEmail}</p>
-                        <p class="text-sm text-gray-600">Total Active Vehicles: ${cars.length}</p>
-                        <p class="text-sm font-semibold text-blue-800 mt-1">Monthly Listing Fee Receivable Due: Ksh ${totalReceivables.toLocaleString()}</p>
-                    </div>
-                    <button id="deleteUserAccBtn" class="bg-red-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-red-700 transition">Delete User Account</button>
-                </div>
-            `;
-
-            const deleteAccBtn = document.getElementById("deleteUserAccBtn");
-            if (deleteAccBtn) {
-                deleteAccBtn.addEventListener("click", deleteUserAccount);
+            if (users.length === 0) {
+                userListContainer.innerHTML = `<p class="text-gray-500 p-4">No registered user accounts found.</p>`;
+                return;
             }
+            let usersHtml = "";
+            users.forEach((user) => {
+                let userCars = cars.filter(car => car.owner === user.email);
+                let userReceivables = userCars.reduce((sum, car) => sum + Number(car.listingFee || 5000), 0);
+                usersHtml += `
+                    <div class="flex justify-between items-center p-4 border rounded-lg bg-gray-50 mb-4">
+                        <div>
+                            <p class="font-bold text-lg text-gray-900">${user.email}</p>
+                            <p class="text-sm text-gray-600">Name: ${user.name || 'N/A'}</p>
+                            <p class="text-sm text-gray-600">Total Active Vehicles: ${userCars.length}</p>
+                            <p class="text-sm font-semibold text-blue-800 mt-1">Monthly Listing Fee Receivable Due: Ksh ${userReceivables.toLocaleString()}</p>
+                        </div>
+                        <button type="button" class="delete-user-btn bg-red-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-red-700 transition" data-email="${user.email}">Delete User Account</button>
+                    </div>
+                `;
+            });
+            userListContainer.innerHTML = usersHtml;
+            const deleteUserBtns = document.querySelectorAll(".delete-user-btn");
+            deleteUserBtns.forEach(btn => {
+                btn.addEventListener("click", function() {
+                    let emailToDelete = this.getAttribute("data-email");
+                    deleteUserAccount(emailToDelete);
+                });
+            });
         }
     }
-    function deleteUserAccount() {
+    function deleteUserAccount(email) {
         if (confirm("Are you sure you want to delete this user account and all their vehicle listings?")) {
-            localStorage.removeItem("userEmail");
-            localStorage.removeItem("userPassword");
-            localStorage.removeItem("carListings");
-            alert("User account and listings deleted successfully.");
-            location.reload();
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+            users = users.filter(u => u.email !== email);
+            cars = cars.filter(car => car.owner !== email);
+            localStorage.setItem("users", JSON.stringify(users));
+            localStorage.setItem("carListings", JSON.stringify(cars)); 
+            alert("User account and their listings deleted successfully.");
+            loadAdminData();
         }
     }
     const navLinksContainer = document.querySelector("nav .hidden.md\\:flex") || document.querySelector("nav");
