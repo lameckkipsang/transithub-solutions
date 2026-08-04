@@ -72,17 +72,12 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         })
     }
-    if (window.location.pathname.includes("dashboard.html")) {
-        if (localStorage.getItem("isLoggedIn") !== "true") {
-            window.location.href = "login.html";
-        }
-    }
     const logoutBtn = document.getElementById("logoutBtn");
     if (logoutBtn) {
         logoutBtn.addEventListener("click", function(event) {
             event.preventDefault();
             localStorage.removeItem("isLoggedIn");
-            window.location.href = "index.html";
+            window.location.href = "../index.html";
         });
     }
     const carForm = document.getElementById("carListingForm");
@@ -293,7 +288,7 @@ if (navLinksContainer && localStorage.getItem("isLoggedIn") === "true") {
                 localStorage.removeItem("isLoggedIn");
                 localStorage.removeItem("isAdmin");
                 alert("Logged out successfully!");
-                window.location.href = "index.html"; 
+                window.location.href = "../index.html"; 
             });
         }
     });

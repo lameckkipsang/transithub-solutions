@@ -4,7 +4,7 @@
     "make": "Mazda CX-8",
     "description": "Spacious 7-seater luxury SUV, premium interior, and smooth long-distance travel.",
     "price": "Ksh 12,000 / day",
-    "image": "assets/images.jfif",
+    "image": "../assets/images.jfif",
     "category": "suv7",
     "listingFee": 12000,
     "hiredUntil": 0
@@ -14,7 +14,7 @@
     "make": "Subaru Outback",
     "description": "Spacious boot, all-wheel drive, great for upcountry travel.",
     "price": "Ksh 5,000 / day",
-    "image": "assets/2021-Subaru-Outback-AWD-Sport-669938.webp",
+    "image": "../assets/2021-Subaru-Outback-AWD-Sport-669938.webp",
     "category": "suv5",
     "listingFee": 8000,
     "hiredUntil": 0
