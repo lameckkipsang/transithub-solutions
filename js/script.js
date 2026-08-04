@@ -165,12 +165,19 @@ document.addEventListener("DOMContentLoaded", function(){
             let imageHTML = car.image 
                 ? `<img src="${car.image}" class="w-full md:w-1/3 h-40 object-cover rounded-lg" alt="${car.make}">`
                 : `<div class="w-full md:w-1/3 h-40 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 font-bold">New Listing</div>`;
-            htmlContent += `
+            let isAvailable = !car.hiredUntil || Number(car.hiredUntil) <= Date.now();
+            let statusBadge = isAvailable 
+            ? `<span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">Available</span>`
+            : `<span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full">Hired Out</span>`;
+                htmlContent += `
                 <div class="bg-white rounded-xl shadow p-6 flex flex-col md:flex-row gap-6 border border-gray-100 dynamic-car-card">
                     ${imageHTML}
                     <div class="flex-grow flex flex-col justify-between">
                         <div>
-                            <h3 class="text-xl font-bold">${car.make}</h3>
+                           <div class="flex justify-between items-start">
+                                <h3 class="text-xl font-bold">${car.make}</h3>
+                                ${statusBadge}
+                            </div>
                             <p class="text-gray-600 text-sm mt-2">${car.description}</p>
                             <div class="text-yellow-400 text-xl tracking-widest mt-2">★★★★★</div>
                         </div>
