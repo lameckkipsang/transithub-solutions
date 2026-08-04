@@ -198,6 +198,20 @@ document.addEventListener("DOMContentLoaded", function(){
             });
         });
     }
+    window.hireCar = function(index) {
+        let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+        let car = cars[index];
+        
+        let days = prompt(`How many days would you like to hire the ${car.make}?`, "3");
+        if (!days) return;
+
+        let hireDurationMs = Number(days) * 24 * 60 * 60 * 1000;
+        car.hiredUntil = Date.now() + hireDurationMs;
+
+        localStorage.setItem("carListings", JSON.stringify(cars));
+        alert(`Success! You have hired the ${car.make} for ${days} day(s).`);
+        displayCarListings();
+    };
     function deleteCarListing(index) {
         let confirmed = confirm("Are you sure you really want to delete your car listing?");
         if (confirmed){
