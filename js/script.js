@@ -158,10 +158,9 @@ document.addEventListener("DOMContentLoaded", function(){
     function displayCarListings() {
         let cars = JSON.parse(localStorage.getItem("carListings")) || [];
         let dynamicContainer = document.getElementById("dynamicCardsContainer");
+        if (!dynamicContainer) return;
         let currentUser = localStorage.getItem("userEmail");
         let isAdmin = localStorage.getItem("isAdmin") === "true";
-       
-        if (!dynamicContainer) return;
         let htmlContent = "";
         for (let i = 0; i < cars.length; i++) {
             let car = cars[i];
@@ -198,8 +197,8 @@ document.addEventListener("DOMContentLoaded", function(){
                         </div>
                         <div class="mt-4 flex justify-between items-center">
                             <span class="font-bold text-lg text-blue-900">${car.price}</span>
-                            <button type="button" class="delete-btn bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition text-sm font-bold" data-index="${i}">Delete Listing</button>
-                        </div>
+                            <div>${actionButton}</div>
+                            </div>
                     </div>
                 </div>
             `;
