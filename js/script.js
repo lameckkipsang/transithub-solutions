@@ -185,6 +185,20 @@ document.addEventListener("DOMContentLoaded", function(){
                 ? `<span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">Available</span>`
                 : `<span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full">Hired Out</span>`;
             let isOwner = (car.owner === currentUser) || isAdmin;
+            let avgRating = car.averageRating || "5.0";
+            let totalReviews = car.ratings ? car.ratings.length : 0;
+            let starsHTML = `
+                <div class="flex items-center gap-2 mt-2">
+                    <div class="text-yellow-400 text-lg cursor-pointer flex gap-1">
+                        <span onclick="rateCar(${i}, 1)" title="1 Star">★</span>
+                        <span onclick="rateCar(${i}, 2)" title="2 Stars">★</span>
+                        <span onclick="rateCar(${i}, 3)" title="3 Stars">★</span>
+                        <span onclick="rateCar(${i}, 4)" title="4 Stars">★</span>
+                        <span onclick="rateCar(${i}, 5)" title="5 Stars">★</span>
+                    </div>
+                    <span class="text-xs text-gray-500 font-semibold">(${avgRating} / 5 from ${totalReviews} review(s))</span>
+                </div>
+            `;
 
             let actionButton = "";
             if (isOwner) {
@@ -209,7 +223,8 @@ document.addEventListener("DOMContentLoaded", function(){
                                 ${statusBadge}
                             </div>
                             <p class="text-gray-600 text-sm mt-2">${car.description}</p>
-                            <div class="text-yellow-400 text-xl tracking-widest mt-2">★★★★★</div>
+                            <p class="text-xs text-gray-400 mt-1">Owner: ${car.owner || 'System'}</p>
+                            ${starsHTML}
                         </div>
                         <div class="mt-4 flex justify-between items-center">
                             <span class="font-bold text-lg text-blue-900">${car.price}</span>
@@ -228,6 +243,22 @@ document.addEventListener("DOMContentLoaded", function(){
             });
         });
     }
+    window.rateCar = function(index, rating) {
+        let cars = JSON.parse(localStorage.getItem("carListings")) || [];
+        let car = cars[index];
+        if (!car.ratings) {
+            car.ratings = [];
+        }
+
+        car.ratings.push(rating);
+        
+        let sum = car.ratings.reduce((a, b) => a + b, 0);
+        car.averageRating = (sum / car.ratings.length).toFixed(1);
+
+        localStorage.setItem("carListings", JSON.stringify(cars));
+        alert(`Thank you! You rated this vehicle ${rating} star(s).`);
+        displayCarListings();
+    };
     window.hireCar = function(index) {
         let cars = JSON.parse(localStorage.getItem("carListings")) || [];
         let car = cars[index];
@@ -293,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function(){
         loadAdminData();
     }
     function loadAdminData() {
-        let userEmail = localStorage.getItem("userEmail") || "Guest User";
+        let users = JSON.parse(localStorage.getItem("users")) || [];
         let cars = JSON.parse(localStorage.getItem("carListings")) || [];
 
         let totalReceivables = 0;
